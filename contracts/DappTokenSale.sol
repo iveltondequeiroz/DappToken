@@ -22,7 +22,7 @@ contract DappTokenSale {
 
   // multiply
   function multiply(uint x, uint y) internal pure returns (uint z) {
-        require(y == 0 || (z = x * y) / y == x);
+    require(y == 0 || (z = x * y) / y == x);
   }
 
   function buyTokens(uint256 _numberOfTokens) public payable {
@@ -36,7 +36,15 @@ contract DappTokenSale {
     tokenSold += _numberOfTokens; 
     // trigger Sell Event
     emit Sell(msg.sender, _numberOfTokens);
+  }
 
+  function endSale() public {
+    // require admin
+    require(msg.sender == admin);
+    // transfer remaning tokens to admin
+    require(tokenContract.transfer(admin, tokenContract.balanceOf(this)));
+    // destroy cointract
+    selfdestruct(admin);  
   }
 
 
