@@ -1,0 +1,3 @@
+cls
+echo "test"
+dir
